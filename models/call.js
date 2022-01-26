@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Joi = require("joi").extend(require("@joi/date"));
+const Joi = require("joi");
 
 const callSchema = new mongoose.Schema({
   number: {

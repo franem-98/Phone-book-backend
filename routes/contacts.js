@@ -13,7 +13,7 @@ router.route("/").get(getAllContacts).post(createContact);
 router
   .route("/:id")
   .get(validateId, getContact)
-  .patch(validateId, updateContact)
-  .delete(validateId, deleteContact);
+  .patch(updateContact)
+  .delete(deleteContact);
 
 module.exports = router;

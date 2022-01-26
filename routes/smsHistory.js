@@ -11,6 +11,6 @@ const {
 } = require("../controllers/smsHistory");
 
 router.route("/").get(getSmsHistory).post(validator(validateSms), createSms);
-router.route("/:id").get(validateId, getSms).delete(validateId, deleteSms);
+router.route("/:id").get(validateId, getSms).delete(deleteSms);
 
 module.exports = router;
