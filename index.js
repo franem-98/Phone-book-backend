@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const contacts = require("./starter/routes/contacts");
 const callHistory = require("./starter/routes/callHistory");
+const smsHistory = require("./starter/routes/smsHistory");
 const notFound = require("./starter/middleware/not-found");
 const error = require("./starter/middleware/error");
 const connectToDb = require("./starter/db/connect");
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use("/api/v1/contacts", contacts);
 app.use("/api/v1/callhistory", callHistory);
+app.use("/api/v1/smshistory", smsHistory);
 app.use(notFound);
 app.use(error);
 

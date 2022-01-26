@@ -37,5 +37,4 @@ const validateCall = (call) => {
 
 const Call = mongoose.model("Call", callSchema);
 
-module.exports.Call = Call;
-module.exports.validateCall = validateCall;
+module.exports = { Call, validateCall };

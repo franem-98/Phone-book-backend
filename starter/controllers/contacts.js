@@ -1,6 +1,10 @@
 const Contact = require("../models/contact");
 const asyncWrapper = require("../middleware/async");
 
+const noContactFoundMsg = (id) => {
+  return `No contact with id: ${id} exists.`;
+};
+
 const getAllContacts = asyncWrapper(async (req, res, next) => {
   const contacts = await Contact.find({});
   res.status(200).send(contacts);
@@ -16,7 +20,7 @@ const getContact = asyncWrapper(async (req, res, next) => {
   const contact = await Contact.findOne({ _id: contactId });
 
   if (!contact) {
-    return res.status(404).send(`No contact with id: ${contactId}.`);
+    return res.status(404).send(noContactFoundMsg(contactId));
   }
 
   res.status(200).send(contact);
@@ -30,7 +34,7 @@ const updateContact = asyncWrapper(async (req, res, next) => {
   });
 
   if (!contact) {
-    return res.status(404).send(`No contact with id: ${contactId}.`);
+    return res.status(404).send(noContactFoundMsg(contactId));
   }
 
   res.status(200).send(contact);
@@ -41,7 +45,7 @@ const deleteContact = asyncWrapper(async (req, res, next) => {
   const contact = await Contact.findOneAndDelete({ _id: contactId });
 
   if (!contact) {
-    return res.status(404).send(`No contact with id: ${contactId}.`);
+    return res.status(404).send(noContactFoundMsg(contactId));
   }
 
   res.status(200).send(contact);

@@ -2,3 +2,5 @@
 {"level":"error","message":"Joi.string(...).required(...).minlength is not a function"}
 {"level":"error","message":"Joi.string(...).required(...).min(...).max(...).match is not a function"}
 {"level":"error","message":"Unknown date format DD/MM/YYYY hh:mm"}
+{"level":"error","message":"call is not defined"}
+{"level":"error","message":"Cast to ObjectId failed for value \"61f15d8faf9ba74c5e116e3\" (type string) at path \"_id\" for model \"Sms\""}
