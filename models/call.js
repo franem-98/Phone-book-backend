@@ -5,7 +5,7 @@ const callSchema = new mongoose.Schema({
   number: {
     type: String,
     required: true,
-    minlength: 9,
+    minlength: 3,
     maxlength: 10,
     match: /^[0-9]+$/,
   },
@@ -25,7 +25,7 @@ const validateCall = (call) => {
   const schema = Joi.object({
     number: Joi.string()
       .required()
-      .min(9)
+      .min(3)
       .max(10)
       .pattern(/^[0-9]+$/),
     duration: Joi.number().integer().required().min(0).max(35),
