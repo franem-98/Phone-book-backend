@@ -70,10 +70,32 @@ describe("/api/v1/contacts", () => {
   });
 
   describe("POST /", () => {
-    it("Should return 400 if name is empty", async () => {
-      const res = await await request(server)
+    let firstName;
+    let number;
+
+    const exec = () => {
+      return request(server)
         .post("/api/v1/contacts")
-        .send({ firstName: "", number: "1234567890" });
+        .send({ firstName, number });
+    };
+
+    beforeEach(() => {
+      firstName = "Frane";
+      number = "1234567890";
+    });
+
+    it("Should return 400 if firstName is empty", async () => {
+      firstName = "";
+
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("Should return 400 if firstName is longer than 50 chars", async () => {
+      firstName = Array(52).join("a");
+
+      const res = await exec();
 
       expect(res.status).toBe(400);
     });
