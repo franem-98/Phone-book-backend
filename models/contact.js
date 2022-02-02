@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const contactSchema = new mongoose.Schema({
   firstName: {
@@ -17,9 +18,28 @@ const contactSchema = new mongoose.Schema({
     type: String,
     required: [true, "Must provide number."],
     trim: true,
-    minlength: [3, "Number must be at least 9 characters long."],
+    minlength: [3, "Number must be at least 3 characters long."],
     maxlength: [10, "Number can not be longer than 10 characters."],
+    match: /^[0-9]+$/,
   },
 });
 
-module.exports = mongoose.model("Contact", contactSchema);
+const Contact = mongoose.model("Contact", contactSchema);
+
+const validateContact = (contact) => {
+  const schema = Joi.object({
+    firstName: Joi.string().required().trim().min(1).max(50),
+    lastName: Joi.string().allow("").trim().max(50),
+    number: Joi.string()
+      .required()
+      .trim()
+      .min(3)
+      .max(10)
+      .pattern(/^[0-9]+$/),
+  });
+
+  return schema.validate(contact);
+};
+
+exports.Contact = Contact;
+exports.validateContact = validateContact;

@@ -1,4 +1,4 @@
-const Contact = require("../models/contact");
+const { Contact } = require("../models/contact");
 const asyncWrapper = require("../middleware/async");
 
 const noContactFoundMsg = (id) => {
