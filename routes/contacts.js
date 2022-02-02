@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const validator = require("../middleware/validator");
+const { validateContact } = require("../models/contact");
 const validateId = require("../middleware/validateObjectId");
 const {
   getAllContacts,
@@ -9,7 +11,10 @@ const {
   deleteContact,
 } = require("../controllers/contacts");
 
-router.route("/").get(getAllContacts).post(createContact);
+router
+  .route("/")
+  .get(getAllContacts)
+  .post(validator(validateContact), createContact);
 router
   .route("/:id")
   .get(validateId, getContact)
