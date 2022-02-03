@@ -11,6 +11,6 @@ const {
 } = require("../controllers/callHistory");
 
 router.route("/").get(getCallHistory).post(validator(validateCall), createCall);
-router.route("/:id").get(validateId, getCall).delete(deleteCall);
+router.route("/:id").get(validateId, getCall).delete(validateId, deleteCall);
 
 module.exports = router;
