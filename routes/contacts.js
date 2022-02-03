@@ -19,7 +19,7 @@ router
 router
   .route("/:id")
   .get(validateId, getContact)
-  .patch(updateContact)
+  .patch(validateNumber, updateContact)
   .delete(deleteContact);
 
 module.exports = router;

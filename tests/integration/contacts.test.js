@@ -1,6 +1,6 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
-const { server: serverFunction } = require("../../index");
+const { serverFunction } = require("../../index");
 const { Contact } = require("../../models/contact");
 
 let server;
@@ -39,6 +39,12 @@ describe("/api/v1/contacts", () => {
   });
 
   describe("GET / :id", () => {
+    let id;
+
+    const exec = () => {
+      return request(server).get("/api/v1/contacts/" + id);
+    };
+
     it("Should return contact with status code 200 if valid id is passed", async () => {
       const contact = new Contact({
         firstName: "Frane",
@@ -48,22 +54,26 @@ describe("/api/v1/contacts", () => {
 
       await contact.save();
 
-      const res = await request(server).get("/api/v1/contacts/" + contact._id);
+      id = contact._id;
+
+      const res = await exec();
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty("firstName", "Frane");
     });
 
     it("Should return 404 if invalid id is passed", async () => {
-      const res = await request(server).get("/api/v1/contacts/" + 1);
+      id = 1;
+
+      const res = await exec();
 
       expect(res.status).toBe(404);
     });
 
     it("Should return 404 if contact with given id doesnt exist", async () => {
-      const contactId = mongoose.Types.ObjectId();
+      id = mongoose.Types.ObjectId();
 
-      const res = await request(server).get("/api/v1/contacts/" + contactId);
+      const res = await exec();
 
       expect(res.status).toBe(404);
     });
@@ -123,5 +133,11 @@ describe("/api/v1/contacts", () => {
       expect(res.body).toHaveProperty("firstName", firstName);
       expect(res.body).toHaveProperty("number", number);
     });
+  });
+
+  describe("PUT / :id", () => {
+    let id;
+    let newFirstName;
+    let newNumber;
   });
 });
