@@ -139,5 +139,131 @@ describe("/api/v1/contacts", () => {
     let id;
     let newFirstName;
     let newNumber;
+    let contact;
+    const existingNumber = "1234567890";
+
+    const exec = () => {
+      return request(server)
+        .patch("/api/v1/contacts/" + id)
+        .send({ firstName: newFirstName, number: newNumber });
+    };
+
+    beforeEach(async () => {
+      contact = await Contact.create({
+        firstName: "Frane",
+        number: existingNumber,
+      });
+
+      id = contact._id;
+      newFirstName = "Updated name";
+      newNumber = "0987654321";
+    });
+
+    it("Should return 400 if new firstName is empty.", async () => {
+      newFirstName = "";
+
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("Should return 400 if new firstName is more than 50 chars.", async () => {
+      newFirstName = Array(52).join("a");
+
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("Should return 404 if contact is not found", async () => {
+      id = mongoose.Types.ObjectId();
+
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+
+    it("Should return 404 if id is invalid", async () => {
+      id = 1;
+
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+
+    it("Should return 409 if contact with new number already exists", async () => {
+      newNumber = existingNumber;
+
+      const res = await exec();
+
+      expect(res.status).toBe(409);
+    });
+
+    it("Should update the contact if input is valid", async () => {
+      await exec();
+
+      const updatedContact = await Contact.findOne({
+        firstName: newFirstName,
+        number: newNumber,
+      });
+
+      expect(updatedContact.firstName).toBe(newFirstName);
+    });
+
+    it("Should return the contact if input is valid", async () => {
+      const res = await exec();
+
+      expect(res.body).toHaveProperty("firstName", newFirstName);
+      expect(res.body).toHaveProperty("number", newNumber);
+    });
+  });
+
+  describe("DELETE / :id", () => {
+    let id;
+    let contact;
+
+    const exec = () => {
+      return request(server).delete("/api/v1/contacts/" + id);
+    };
+
+    beforeEach(async () => {
+      contact = await Contact.create({
+        firstName: "Frane",
+        number: "1234567890",
+      });
+
+      id = contact._id;
+    });
+
+    it("Should return 404 if contact with id doesnt exist", async () => {
+      id = mongoose.Types.ObjectId();
+
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+
+    it("Should return 404 if id is invalid", async () => {
+      id = 1;
+
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+
+    it("Should delete selected contact if input is valid", async () => {
+      await exec();
+
+      const deletedContact = await Contact.findById(id);
+
+      expect(deletedContact).toBeNull();
+    });
+
+    it("Should return deleted contact if input is valid", async () => {
+      const res = await exec();
+
+      expect(res.body).toHaveProperty("firstName", contact.firstName);
+      expect(res.body).toHaveProperty("number", contact.number);
+    });
   });
 });

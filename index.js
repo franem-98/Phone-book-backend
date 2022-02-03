@@ -19,4 +19,4 @@ const server = (port) => {
 
 server(port);
 
-exports.server = server;
+exports.serverFunction = server;

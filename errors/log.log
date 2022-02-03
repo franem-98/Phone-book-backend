@@ -25,3 +25,6 @@
 {"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
 {"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
 {"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
+{"level":"error","message":"Validation failed: firstName: Must provide first name."}
+{"level":"error","message":"Validation failed: firstName: Name can not be longer than 50 characters."}
+{"level":"error","message":"Cast to ObjectId failed for value \"1\" (type string) at path \"_id\" for model \"Contact\""}

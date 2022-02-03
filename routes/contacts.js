@@ -19,7 +19,10 @@ router
 router
   .route("/:id")
   .get(validateId, getContact)
-  .patch([validateId, validateNumber], updateContact)
-  .delete(deleteContact);
+  .patch(
+    [validateId, validateNumber, validator(validateContact)],
+    updateContact
+  )
+  .delete(validateId, deleteContact);
 
 module.exports = router;
