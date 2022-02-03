@@ -15,3 +15,13 @@
 {"level":"error","message":"Contact validation failed: firstName: Must provide first name."}
 {"level":"error","message":"Contact validation failed: firstName: Must provide first name."}
 {"level":"error","message":"Contact validation failed: firstName: Must provide first name."}
+{"level":"error","message":"E11000 duplicate key error collection: Phone-book.contacts index: number_1 dup key: { number: \"1234567890\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: Phone-book.contacts index: number_1 dup key: { number: \"1234567890\" }"}
+{"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
+{"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
+{"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
+{"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
+{"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
+{"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
+{"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}
+{"level":"error","message":"Cannot destructure property 'number' of '((cov_2kf60ijwrf(...).s[8]++) , (intermediate value))' as it is null."}

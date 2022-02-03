@@ -51,7 +51,7 @@ describe("/api/v1/contacts", () => {
       const res = await request(server).get("/api/v1/contacts/" + contact._id);
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("firstName", contact.firstName);
+      expect(res.body).toHaveProperty("firstName", "Frane");
     });
 
     it("Should return 404 if invalid id is passed", async () => {
@@ -98,6 +98,30 @@ describe("/api/v1/contacts", () => {
       const res = await exec();
 
       expect(res.status).toBe(400);
+    });
+
+    it("Should return 409 if number already exists in db", async () => {
+      await Contact.create({ firstName: "Ante", number });
+
+      const res = await exec();
+
+      expect(res.status).toBe(409);
+    });
+
+    it("Should save the contact if it is valid", async () => {
+      await exec();
+
+      const contact = Contact.find({ firstName, number });
+
+      expect(contact).not.toBeNull;
+    });
+
+    it("Should return the contact if it is valid", async () => {
+      const res = await exec();
+
+      expect(res.body).toHaveProperty("_id");
+      expect(res.body).toHaveProperty("firstName", firstName);
+      expect(res.body).toHaveProperty("number", number);
     });
   });
 });

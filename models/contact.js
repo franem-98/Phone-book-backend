@@ -17,6 +17,7 @@ const contactSchema = new mongoose.Schema({
   number: {
     type: String,
     required: [true, "Must provide number."],
+    unique: true,
     trim: true,
     minlength: [3, "Number must be at least 3 characters long."],
     maxlength: [10, "Number can not be longer than 10 characters."],
