@@ -1,17 +1,16 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
-const { serverFunction } = require("../../index");
 const { Contact } = require("../../models/contact");
 
 let server;
 
 describe("/api/v1/contacts", () => {
   beforeEach(async () => {
-    await Contact.deleteMany({});
-    server = serverFunction(0);
+    server = require("../../index");
   });
 
   afterEach(async () => {
+    await Contact.deleteMany({});
     await server.close();
   });
 
@@ -46,13 +45,11 @@ describe("/api/v1/contacts", () => {
     };
 
     it("Should return contact with status code 200 if valid id is passed", async () => {
-      const contact = new Contact({
+      const contact = await Contact.create({
         firstName: "Frane",
         lastName: "Franic",
         number: "1234567890",
       });
-
-      await contact.save();
 
       id = contact._id;
 
@@ -135,7 +132,7 @@ describe("/api/v1/contacts", () => {
     });
   });
 
-  describe("PUT / :id", () => {
+  describe("PATCH / :id", () => {
     let id;
     let newFirstName;
     let newNumber;

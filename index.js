@@ -10,13 +10,8 @@ require("./startup/compress")(app);
 
 const port = process.env.PORT || 5000;
 
-const server = (port) => {
-  return app.listen(
-    port,
-    logger.info(`Server is listening on port ${port}...`)
-  );
-};
+const server = app.listen(port, () =>
+  logger.info(`Server is listening on port ${port}...`)
+);
 
-server(port);
-
-exports.serverFunction = server;
+module.exports = server;
