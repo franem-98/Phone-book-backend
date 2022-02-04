@@ -1,10 +1,11 @@
 const request = require("supertest");
-const mongoose = require("mongoose");
+const { ObjectId } = require("mongoose").Types;
 const { Contact } = require("../../models/contact");
 
 let server;
+const url = "/api/v1/contacts/";
 
-describe("/api/v1/contacts", () => {
+describe(url, () => {
   beforeEach(async () => {
     server = require("../../index");
   });
@@ -29,7 +30,7 @@ describe("/api/v1/contacts", () => {
         },
       ]);
 
-      const res = await request(server).get("/api/v1/contacts");
+      const res = await request(server).get(url);
 
       expect(res.status).toBe(200);
       expect(res.body.find((c) => c.firstName === "Frane")).toBeTruthy();
@@ -41,7 +42,7 @@ describe("/api/v1/contacts", () => {
     let id;
 
     const exec = () => {
-      return request(server).get("/api/v1/contacts/" + id);
+      return request(server).get(url + id);
     };
 
     it("Should return contact with status code 200 if valid id is passed", async () => {
@@ -68,7 +69,7 @@ describe("/api/v1/contacts", () => {
     });
 
     it("Should return 404 if contact with given id doesnt exist", async () => {
-      id = mongoose.Types.ObjectId();
+      id = ObjectId();
 
       const res = await exec();
 
@@ -81,9 +82,7 @@ describe("/api/v1/contacts", () => {
     let number;
 
     const exec = () => {
-      return request(server)
-        .post("/api/v1/contacts")
-        .send({ firstName, number });
+      return request(server).post(url).send({ firstName, number });
     };
 
     beforeEach(() => {
@@ -141,7 +140,7 @@ describe("/api/v1/contacts", () => {
 
     const exec = () => {
       return request(server)
-        .patch("/api/v1/contacts/" + id)
+        .patch(url + id)
         .send({ firstName: newFirstName, number: newNumber });
     };
 
@@ -173,7 +172,7 @@ describe("/api/v1/contacts", () => {
     });
 
     it("Should return 404 if contact is not found", async () => {
-      id = mongoose.Types.ObjectId();
+      id = ObjectId();
 
       const res = await exec();
 
@@ -233,7 +232,7 @@ describe("/api/v1/contacts", () => {
     });
 
     it("Should return 404 if contact with id doesnt exist", async () => {
-      id = mongoose.Types.ObjectId();
+      id = ObjectId();
 
       const res = await exec();
 

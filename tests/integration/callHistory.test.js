@@ -1,11 +1,12 @@
 const request = require("supertest");
 const moment = require("moment");
-const mongoose = require("mongoose");
+const { ObjectId } = require("mongoose").Types;
 const { Call } = require("../../models/call");
 
 let server;
+const url = "/api/v1/callhistory/";
 
-describe("/api/v1/callhistory", () => {
+describe(url, () => {
   beforeEach(async () => {
     server = require("../../index");
   });
@@ -21,16 +22,16 @@ describe("/api/v1/callhistory", () => {
         {
           number: "1234567890",
           duration: 5,
-          endTime: new Date().toISOString(),
+          endTime: "01/01/2022 16:30",
         },
         {
           number: "0987654321",
           duration: 4,
-          endTime: new Date().toISOString(),
+          endTime: "01/02/2022 16:30",
         },
       ]);
 
-      const res = await request(server).get("/api/v1/callhistory");
+      const res = await request(server).get(url);
 
       expect(res.status).toBe(200);
       expect(res.body.find((c) => (c.number = "1234567890"))).toBeTruthy();
@@ -40,21 +41,17 @@ describe("/api/v1/callhistory", () => {
 
   describe("GET / :id", () => {
     let call;
-    let number;
-    let endTime;
     let id;
 
     const exec = () => {
-      return request(server).get("/api/v1/callhistory/" + id);
+      return request(server).get(url + id);
     };
 
     beforeEach(async () => {
-      number = "1234567890";
-      endTime = new Date().toISOString();
       call = await Call.create({
-        number,
+        number: "1234567890",
         duration: 5,
-        endTime,
+        endTime: "01/01/2022 16:30",
       });
 
       id = call._id;
@@ -64,13 +61,13 @@ describe("/api/v1/callhistory", () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("number", "1234567890");
-      expect(res.body).toHaveProperty("duration", 5);
-      expect(res.body).toHaveProperty("endTime", endTime);
+      expect(res.body).toHaveProperty("number", call.number);
+      expect(res.body).toHaveProperty("duration", call.duration);
+      expect(res.body).toHaveProperty("endTime", call.endTime);
     });
 
     it("Should return 404 if call with id doesnt exist", async () => {
-      id = mongoose.Types.ObjectId();
+      id = ObjectId();
 
       const res = await exec();
 
@@ -92,9 +89,7 @@ describe("/api/v1/callhistory", () => {
     let endTime;
 
     const exec = () => {
-      return request(server)
-        .post("/api/v1/callhistory")
-        .send({ number, duration, endTime });
+      return request(server).post(url).send({ number, duration, endTime });
     };
 
     beforeEach(() => {
@@ -176,7 +171,7 @@ describe("/api/v1/callhistory", () => {
     let id;
 
     const exec = () => {
-      return request(server).delete("/api/v1/callhistory/" + id);
+      return request(server).delete(url + id);
     };
 
     beforeEach(async () => {
@@ -190,7 +185,7 @@ describe("/api/v1/callhistory", () => {
     });
 
     it("Should return 404 if call with id doesnt exist", async () => {
-      id = mongoose.Types.ObjectId();
+      id = ObjectId();
 
       const res = await exec();
 

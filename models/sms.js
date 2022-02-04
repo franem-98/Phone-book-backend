@@ -5,7 +5,7 @@ const smsSchema = new mongoose.Schema({
   number: {
     type: String,
     required: true,
-    minlength: 9,
+    minlength: 3,
     maxlength: 10,
     match: /^[0-9]+$/,
   },
@@ -24,7 +24,7 @@ const validateSms = (sms) => {
   const schema = Joi.object({
     number: Joi.string()
       .required()
-      .min(9)
+      .min(3)
       .max(10)
       .pattern(/^[0-9]+$/),
     message: Joi.string().required().max(255),
